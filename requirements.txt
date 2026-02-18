@@ -5,3 +5,4 @@ flask-migrate
 python-dotenv
 groq
 markdown
+gunicorn
