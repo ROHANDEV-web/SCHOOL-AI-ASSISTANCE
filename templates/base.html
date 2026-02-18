@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tutor - Premium Learning Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Marked.js for Markdown Rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Highlight.js for Code Highlighting -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+</head>
+
+<body class="antialiased selection:bg-blue-500 selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-panel border-b-0 border-white/10 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <div
+                        class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/30">
+                        A</div>
+                    <span class="font-bold text-xl tracking-tight text-white">AI Tutor</span>
+                </div>
+                <div class="flex items-center gap-6">
+                    {% if current_user.is_authenticated %}
+                    <span class="text-sm text-gray-400">Credits: <span id="credit-count"
+                            class="text-blue-400 font-bold">{{ current_user.daily_limit - current_user.questions_today
+                            }}</span>/{{ current_user.daily_limit }}</span>
+                    <a href="{{ url_for('dashboard') }}"
+                        class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Dashboard</a>
+                    <a href="{{ url_for('notes') }}"
+                        class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Notes</a>
+                    <a href="{{ url_for('logout') }}"
+                        class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Logout</a>
+                    {% else %}
+                    <a href="{{ url_for('login') }}"
+                        class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Login</a>
+                    <a href="{{ url_for('register') }}"
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-all shadow-lg shadow-blue-600/20">Get
+                        Started</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 min-h-screen pb-10">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="max-w-7xl mx-auto px-4 mb-6">
+            {% for category, message in messages %}
+            <div class="p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-200 mb-2">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-panel mt-auto py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 AI Tutor Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

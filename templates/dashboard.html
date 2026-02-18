@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid lg:grid-cols-12 gap-8">
+        <!-- Sidebar / Ad Space -->
+        <div class="lg:col-span-3 space-y-6">
+            <div class="glass-panel rounded-2xl p-6">
+                <h3 class="text-lg font-bold text-white mb-4">Your Stats</h3>
+                <div class="space-y-4">
+                    <div class="bg-blue-500/10 rounded-lg p-4 border border-blue-500/20">
+                        <div class="text-sm text-gray-400">Daily Questions Left</div>
+                        <div class="text-2xl font-bold text-blue-400" id="dash-credits">{{ user.daily_limit -
+                            user.questions_today }}</div>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <p class="text-xs text-center text-gray-500 mb-2">Need more questions?</p>
+                    <button onclick="watchAd()"
+                        class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Watch Ad (+1 Credit)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Google Ad Placeholder -->
+            <div class="glass-panel rounded-2xl p-4 h-64 ad-slot">
+                Google Ad Space
+                <!-- Insert Google AdScript here -->
+            </div>
+        </div>
+
+        <!-- Main Chat Interface -->
+        <div class="lg:col-span-9 h-[calc(100vh-140px)] flex flex-col">
+            <div class="glass-panel rounded-2xl flex-1 flex flex-col overflow-hidden relative">
+                <!-- Chat History -->
+                <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-6">
+                    <!-- Welcome Message -->
+                    <div class="flex gap-4">
+                        <div
+                            class="w-8 h-8 rounded-full bg-blue-500 flex-shrink-0 flex items-center justify-center text-xs">
+                            AI</div>
+                        <div class="glass-panel rounded-2xl rounded-tl-none p-4 max-w-[80%] text-gray-200">
+                            Hello {{ user.username }}! I can help you with:
+                            <ul class="list-disc ml-5 mt-2 space-y-1 text-sm text-gray-400">
+                                <li>Math, Science, Physics questions</li>
+                                <li>Coding & Programming (Python, C++, Java, etc.)</li>
+                                <li>General doubts (Grade 1 - College)</li>
+                            </ul>
+                            <p class="mt-2 text-sm italic opacity-50">Note: I do not cover Hindi, English Lit, or
+                                Sanskrit.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="p-4 border-t border-white/5 bg-gray-900/50">
+                    <form id="ask-form" class="relative">
+                        <div class="flex gap-4 mb-2">
+                            <select id="subject-select"
+                                class="glass-input rounded-lg px-3 py-1 text-sm text-gray-300 w-32 focus:ring-1 focus:ring-blue-500">
+                                <option value="General">General</option>
+                                <option value="Math">Math</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Programming">Programming</option>
+                                <option value="Science">Science</option>
+                            </select>
+                        </div>
+                        <div class="flex gap-2">
+                            <textarea id="user-input" rows="1"
+                                class="w-full glass-input rounded-xl px-4 py-3 pr-12 resize-none"
+                                placeholder="Ask your question here..."></textarea>
+                            <button type="submit"
+                                class="absolute right-3 bottom-2.5 p-2 bg-blue-600 rounded-lg hover:bg-blue-500 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ad Overlay Modal (Simulated) -->
+<div id="ad-modal" class="fixed inset-0 z-[100] bg-black/90 hidden flex items-center justify-center">
+    <div class="bg-white text-black p-8 rounded-lg max-w-sm w-full text-center">
+        <h3 class="text-xl font-bold mb-4">Watching Ad...</h3>
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+            <div id="ad-progress" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+        </div>
+        <p class="text-sm text-gray-500">Please wait 5 seconds to get your reward.</p>
+    </div>
+</div>
+{% endblock %}

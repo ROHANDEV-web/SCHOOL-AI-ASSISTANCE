@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mt-20 lg:mt-32 animate-fade-in">
+        <h1
+            class="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 mb-6 pb-2">
+            Master Any Subject <br> with AI Power
+        </h1>
+        <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+            Your personal AI tutor for everything from Grade 1 to College level.
+            Solve doubts, verify code, and take notes—all in one place.
+        </p>
+
+        <div class="flex justify-center gap-4 mb-20 animate-fade-in" style="animation-delay: 0.2s">
+            <a href="{{ url_for('register') }}"
+                class="px-8 py-4 glass-btn rounded-xl text-white font-bold text-lg shadow-xl shadow-blue-500/20 flex items-center gap-2">
+                Start Learning Free
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid md:grid-cols-3 gap-8 text-left animate-fade-in" style="animation-delay: 0.4s">
+            <div class="glass-panel p-8 rounded-2xl relative overflow-hidden group hover:bg-white/5 transition-colors">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg class="w-24 h-24 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2">Instant Doubts</h3>
+                <p class="text-gray-400">Get instant answers for Math, Physics, Science, and more. Just ask and learn.
+                </p>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl relative overflow-hidden group hover:bg-white/5 transition-colors">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg class="w-24 h-24 text-emerald-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2">Code Assistant</h3>
+                <p class="text-gray-400">Stuck on a Python script or C++ bug? Paste your code and get a fix instantly.
+                </p>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl relative overflow-hidden group hover:bg-white/5 transition-colors">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg class="w-24 h-24 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2">Smart Notes</h3>
+                <p class="text-gray-400">Save important explanations directly to your dashboard. Review anytime.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
