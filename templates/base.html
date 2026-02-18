@@ -5,24 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Tutor - Premium Learning Platform</title>
+
+    <!-- Google AdSense Verification -->
+    <script async 
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6582101258895011"
+        crossorigin="anonymous"></script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <!-- Marked.js for Markdown Rendering -->
+
+    <!-- Marked.js -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- Highlight.js for Code Highlighting -->
+
+    <!-- Highlight.js -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 </head>
 
-<body class="antialiased selection:bg-blue-500 selection:text-white">
+<body class="antialiased selection:bg-blue-500 selection:text-white bg-gray-950 text-white">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-panel border-b-0 border-white/10 top-0">
+    <nav class="fixed w-full z-50 glass-panel border-b-0 border-white/10 top-0 bg-gray-900/90 backdrop-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-2">
@@ -33,21 +43,37 @@
                 </div>
                 <div class="flex items-center gap-6">
                     {% if current_user.is_authenticated %}
-                    <span class="text-sm text-gray-400">Credits: <span id="credit-count"
-                            class="text-blue-400 font-bold">{{ current_user.daily_limit - current_user.questions_today
-                            }}</span>/{{ current_user.daily_limit }}</span>
+                    <span class="text-sm text-gray-400">
+                        Credits:
+                        <span id="credit-count"
+                            class="text-blue-400 font-bold">
+                            {{ current_user.daily_limit - current_user.questions_today }}
+                        </span>/{{ current_user.daily_limit }}
+                    </span>
+
                     <a href="{{ url_for('dashboard') }}"
                         class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Dashboard</a>
+
                     <a href="{{ url_for('notes') }}"
                         class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Notes</a>
+
+                    <a href="{{ url_for('about') }}"
+                        class="text-gray-300 hover:text-white transition-colors text-sm font-medium">About</a>
+
                     <a href="{{ url_for('logout') }}"
                         class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Logout</a>
+
                     {% else %}
+                    <a href="{{ url_for('about') }}"
+                        class="text-gray-300 hover:text-white transition-colors text-sm font-medium">About</a>
+
                     <a href="{{ url_for('login') }}"
                         class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Login</a>
+
                     <a href="{{ url_for('register') }}"
-                        class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-all shadow-lg shadow-blue-600/20">Get
-                        Started</a>
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-all shadow-lg shadow-blue-600/20">
+                        Get Started
+                    </a>
                     {% endif %}
                 </div>
             </div>
@@ -56,6 +82,7 @@
 
     <!-- Main Content -->
     <main class="pt-24 min-h-screen pb-10">
+
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         <div class="max-w-7xl mx-auto px-4 mb-6">
@@ -69,12 +96,22 @@
         {% endwith %}
 
         {% block content %}{% endblock %}
+
     </main>
 
     <!-- Footer -->
-    <footer class="glass-panel mt-auto py-8">
-        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
+    <footer class="glass-panel mt-auto py-8 bg-gray-900 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm space-y-3">
+
             <p>&copy; 2026 AI Tutor Platform. All rights reserved.</p>
+
+            <div class="flex justify-center gap-6 text-gray-400">
+                <a href="{{ url_for('privacy') }}" class="hover:text-white">Privacy Policy</a>
+                <a href="{{ url_for('terms') }}" class="hover:text-white">Terms</a>
+                <a href="{{ url_for('contact') }}" class="hover:text-white">Contact</a>
+                <a href="{{ url_for('about') }}" class="hover:text-white">About</a>
+            </div>
+
         </div>
     </footer>
 

@@ -6,34 +6,42 @@ import os
 from groq import Groq
 from dotenv import load_dotenv
 
-from models import db, User, Note  # Import models properly
+from models import db, User, Note
 
 load_dotenv()
 
 app = Flask(__name__)
 
-# Security
+# =========================
+# SECURITY
+# =========================
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "dev-secret-key-change-this")
 
-# Database
+# =========================
+# DATABASE
+# =========================
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-# Login Manager
+# =========================
+# LOGIN MANAGER
+# =========================
 login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 
-# Initialize Groq
+# =========================
+# GROQ INIT
+# =========================
 if not os.environ.get("GROQ_API_KEY"):
     raise ValueError("GROQ_API_KEY not set in environment variables")
 
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 # =========================
-# LOGIN MANAGER
+# USER LOADER
 # =========================
 @login_manager.user_loader
 def load_user(user_id):
@@ -58,6 +66,38 @@ def check_daily_reset(user):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+# -------------------------
+# ABOUT PAGE
+# -------------------------
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+# -------------------------
+# PRIVACY POLICY
+# -------------------------
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
+
+# -------------------------
+# TERMS OF SERVICE
+# -------------------------
+@app.route('/terms')
+def terms():
+    return render_template('terms.html')
+
+
+# -------------------------
+# CONTACT PAGE
+# -------------------------
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 
 # -------------------------
@@ -145,7 +185,6 @@ def ask_ai():
     question = data.get('question')
     subject = data.get('subject', 'General')
 
-    # Subject filtering
     forbidden_subjects = ['hindi', 'english literature', 'sanskrit']
     if subject.lower() in forbidden_subjects:
         return jsonify({
@@ -166,7 +205,6 @@ def ask_ai():
                 {"role": "user", "content": user_prompt}
             ],
             model="llama-3.1-8b-instant",
-
             temperature=0.7,
             max_tokens=1024,
         )
@@ -237,7 +275,8 @@ def delete_note(id):
 # =========================
 # RUN
 # =========================
+with app.app_context():
+    db.create_all()
+
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
