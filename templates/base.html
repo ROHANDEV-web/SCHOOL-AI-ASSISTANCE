@@ -7,8 +7,7 @@
     <title>AI Tutor - Premium Learning Platform</title>
 
     <!-- Google AdSense Verification -->
-    <script async 
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6582101258895011"
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6582101258895011"
         crossorigin="anonymous"></script>
 
     <!-- Tailwind CSS -->
@@ -27,9 +26,23 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Init Theme
+        if (localStorage.theme === 'light') {
+            document.documentElement.classList.add('light');
+        } else {
+            document.documentElement.classList.remove('light');
+        }
+    </script>
 </head>
 
-<body class="antialiased selection:bg-blue-500 selection:text-white bg-gray-950 text-white">
+<body
+    class="antialiased selection:bg-blue-500 selection:text-white bg-gray-950 text-white transition-colors duration-300">
+
 
     <!-- Navigation -->
     <nav class="fixed w-full z-50 glass-panel border-b-0 border-white/10 top-0 bg-gray-900/90 backdrop-blur">
@@ -45,8 +58,7 @@
                     {% if current_user.is_authenticated %}
                     <span class="text-sm text-gray-400">
                         Credits:
-                        <span id="credit-count"
-                            class="text-blue-400 font-bold">
+                        <span id="credit-count" class="text-blue-400 font-bold">
                             {{ current_user.daily_limit - current_user.questions_today }}
                         </span>/{{ current_user.daily_limit }}
                     </span>
@@ -63,6 +75,17 @@
                     <a href="{{ url_for('logout') }}"
                         class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Logout</a>
 
+                    <button onclick="toggleTheme()"
+                        class="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                        <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
+                        </svg>
+                        <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
                     {% else %}
                     <a href="{{ url_for('about') }}"
                         class="text-gray-300 hover:text-white transition-colors text-sm font-medium">About</a>

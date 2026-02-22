@@ -7,3 +7,6 @@ groq
 markdown
 gunicorn
 flask-compress
+fpdf2
+pypdf
+Pillow
