@@ -43,6 +43,8 @@ def add_xp(user, amount, subject=None, action=None):
 # SECURITY
 # =========================
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "dev-secret-key-change-this")
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=365)
+app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=365)
 
 # =========================
 # DATABASE
@@ -170,7 +172,7 @@ def login():
         user = User.query.filter_by(username=username).first()
 
         if user and check_password_hash(user.password, password):
-            login_user(user)
+            login_user(user, remember=True)
             return redirect(url_for('dashboard'))
         else:
             flash('Invalid credentials', 'error')
@@ -480,6 +482,20 @@ def get_analytics():
 def get_leaderboard():
     top_users = User.query.order_by(User.xp.desc()).limit(5).all()
     return jsonify([{'username': u.username, 'xp': u.xp, 'level': u.level} for u in top_users])
+
+# -------------------------
+# UPDATE CLASS
+# -------------------------
+@app.route('/api/update-class', methods=['POST'])
+@login_required
+def update_class():
+    data = request.json
+    new_class = data.get('student_class')
+    if new_class:
+        current_user.student_class = new_class
+        db.session.commit()
+        return jsonify({'success': True, 'new_class': new_class})
+    return jsonify({'error': 'No class provided'}), 400
 
 # -------------------------
 # PDF DOWNLOADS

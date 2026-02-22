@@ -8,6 +8,21 @@
             <div class="glass-panel rounded-2xl p-6">
                 <h3 class="text-lg font-bold text-white mb-4">Your Stats</h3>
                 <div class="space-y-4">
+                    <div
+                        class="bg-blue-500/10 rounded-lg p-4 border border-blue-500/20 flex justify-between items-center">
+                        <div>
+                            <div class="text-sm text-gray-400">Your Class</div>
+                            <div class="text-xl font-bold text-blue-400" id="current-class-display">{{
+                                user.student_class or 'Not Set' }}</div>
+                        </div>
+                        <button onclick="openUpdateClassModal()"
+                            class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </button>
+                    </div>
                     <div class="bg-blue-500/10 rounded-lg p-4 border border-blue-500/20">
                         <div class="text-sm text-gray-400">Daily Questions Left</div>
                         <div class="text-2xl font-bold text-blue-400" id="dash-credits">{{ user.daily_limit -
@@ -263,6 +278,46 @@
             <div id="ad-progress" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
         </div>
         <p class="text-sm text-gray-500">Please wait 5 seconds to get your reward.</p>
+    </div>
+</div>
+
+<!-- Update Class Modal -->
+<div id="class-modal"
+    class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-md rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center bg-gray-900/50">
+            <h3 class="text-xl font-bold text-white">Update Your Class</h3>
+            <button onclick="closeClassModal()" class="text-gray-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div class="p-8 space-y-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-400 mb-2">Select Your Class</label>
+                <select id="new-class-select" class="w-full glass-input rounded-xl px-4 py-3 text-gray-200">
+                    <option value="Class 1">Class 1</option>
+                    <option value="Class 2">Class 2</option>
+                    <option value="Class 3">Class 3</option>
+                    <option value="Class 4">Class 4</option>
+                    <option value="Class 5">Class 5</option>
+                    <option value="Class 6">Class 6</option>
+                    <option value="Class 7">Class 7</option>
+                    <option value="Class 8">Class 8</option>
+                    <option value="Class 9">Class 9</option>
+                    <option value="Class 10">Class 10</option>
+                    <option value="Class 11">Class 11</option>
+                    <option value="Class 12">Class 12</option>
+                    <option value="College">College</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <button onclick="submitClassUpdate()"
+                class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 transition-all">
+                Update Class
+            </button>
+        </div>
     </div>
 </div>
 {% endblock %}

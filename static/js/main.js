@@ -211,3 +211,33 @@ async function loadLeaderboard() {
     const data = await res.json();
     document.getElementById('leaderboard-body').innerHTML = data.map((u, i) => `<tr><td class="px-6 py-4">#${i + 1}</td><td class="px-6 py-4">${u.username}</td><td class="px-6 py-4">${u.xp}</td><td class="px-6 py-4">Lvl ${u.level}</td></tr>`).join('');
 }
+
+// Update Class Logic
+window.openUpdateClassModal = function () {
+    document.getElementById('class-modal').classList.remove('hidden');
+};
+
+window.closeClassModal = function () {
+    document.getElementById('class-modal').classList.add('hidden');
+};
+
+window.submitClassUpdate = async function () {
+    const studentClass = document.getElementById('new-class-select').value;
+    try {
+        const res = await fetch('/api/update-class', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ student_class: studentClass })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            document.getElementById('current-class-display').textContent = data.new_class;
+            closeClassModal();
+            alert('Class updated successfully!');
+        } else {
+            alert(data.error || 'Failed to update class');
+        }
+    } catch (err) {
+        alert('Network error');
+    }
+};
