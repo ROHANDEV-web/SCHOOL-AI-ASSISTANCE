@@ -13,6 +13,7 @@ class User(UserMixin, db.Model):
     questions_today = db.Column(db.Integer, default=0)
     last_active_date = db.Column(db.Date, default=date.today)
     daily_limit = db.Column(db.Integer, default=5)
+    student_class = db.Column(db.String(50), nullable=True)
 
     notes = db.relationship('Note', backref='user', lazy=True)
 

@@ -110,6 +110,7 @@ def register():
         username = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
+        student_class = request.form.get('student_class')
 
         if User.query.filter_by(username=username).first():
             flash('Username already exists', 'error')
@@ -121,7 +122,7 @@ def register():
 
         hashed_pw = generate_password_hash(password)
 
-        new_user = User(username=username, email=email, password=hashed_pw)
+        new_user = User(username=username, email=email, password=hashed_pw, student_class=student_class)
         db.session.add(new_user)
         db.session.commit()
 
@@ -193,11 +194,18 @@ def ask_ai():
         })
 
     system_prompt = (
-        "You are a helpful AI tutor for students from Grade 1 to College. "
+        "You are a helpful AI tutor for students. "
+        f"The student is in {current_user.student_class or 'Grade 1 to College'}. "
         "Provide clear explanations and code examples when needed."
     )
 
     user_prompt = f"Subject: {subject}. Question: {question}"
+
+    # Adjust max tokens for higher education programming questions
+    max_tokens = 400
+    is_higher_ed = current_user.student_class and any(x in current_user.student_class for x in ["College", "Other"])
+    if subject.lower() == "programming" and is_higher_ed:
+        max_tokens = 1000  # Increased for complex code, but within model limits
 
     try:
         chat_completion = client.chat.completions.create(
@@ -207,7 +215,7 @@ def ask_ai():
             ],
             model="llama-3.1-8b-instant",
             temperature=0.7,
-            max_tokens=400,
+            max_tokens=max_tokens,
         )
 
         answer = chat_completion.choices[0].message.content
@@ -222,6 +230,95 @@ def ask_ai():
 
     except Exception as e:
         print("Groq API Error:", e)
+        return jsonify({'error': str(e)}), 500
+
+
+# -------------------------
+# AI NOTES GENERATOR
+# -------------------------
+@app.route('/api/generate-notes', methods=['POST'])
+@login_required
+def generate_notes():
+    check_daily_reset(current_user)
+    if current_user.questions_today >= current_user.daily_limit:
+        return jsonify({'error': 'Daily limit reached', 'limit_reached': True}), 403
+
+    data = request.json
+    topic = data.get('topic')
+    subject = data.get('subject', 'General')
+
+    system_prompt = (
+        "You are an expert educational notes generator. "
+        f"Create comprehensive, well-structured study notes for a student in {current_user.student_class or 'Grade 1 to College'}. "
+        "Use Markdown formatting, including headers, bullet points, and bold text for key terms."
+    )
+    user_prompt = f"Subject: {subject}. Topic: {topic}. Please generate detailed study notes."
+
+    try:
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            model="llama-3.1-8b-instant",
+            temperature=0.7,
+            max_tokens=1000,
+        )
+        notes_content = chat_completion.choices[0].message.content
+        current_user.questions_today += 1
+        db.session.commit()
+
+        return jsonify({
+            'notes': notes_content,
+            'questions_left': current_user.daily_limit - current_user.questions_today
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# -------------------------
+# AI QUIZ GENERATOR
+# -------------------------
+@app.route('/api/generate-quiz', methods=['POST'])
+@login_required
+def generate_quiz():
+    check_daily_reset(current_user)
+    if current_user.questions_today >= current_user.daily_limit:
+        return jsonify({'error': 'Daily limit reached', 'limit_reached': True}), 403
+
+    data = request.json
+    topic = data.get('topic')
+    subject = data.get('subject', 'General')
+
+    system_prompt = (
+        "You are an expert quiz generator. "
+        f"Create a 5-question multiple choice quiz for a student in {current_user.student_class or 'Grade 1 to College'}. "
+        "Return ONLY a JSON object with a key 'quiz' containing an array of 5 objects. Each object must have: "
+        "'question' (string), 'options' (array of 4 strings), and 'answer' (string matching one of the options)."
+    )
+    user_prompt = f"Subject: {subject}. Topic: {topic}. Generate a 5-question quiz in JSON format."
+
+    try:
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            model="llama-3.1-8b-instant",
+            temperature=0.7,
+            max_tokens=1000,
+            response_format={"type": "json_object"}
+        )
+        import json
+        quiz_json = json.loads(chat_completion.choices[0].message.content)
+        current_user.questions_today += 1
+        db.session.commit()
+
+        return jsonify({
+            'quiz': quiz_json['quiz'],
+            'questions_left': current_user.daily_limit - current_user.questions_today
+        })
+    except Exception as e:
+        print("Quiz Error:", e)
         return jsonify({'error': str(e)}), 500
 
 
