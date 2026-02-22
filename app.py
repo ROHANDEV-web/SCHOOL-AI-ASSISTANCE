@@ -197,7 +197,21 @@ def logout():
 @login_required
 def dashboard():
     check_daily_reset(current_user)
-    return render_template('dashboard.html', user=current_user)
+    
+    # Calculate account age
+    if current_user.account_created_at:
+        delta = datetime.utcnow() - current_user.account_created_at
+        account_age_days = max(delta.days, 1) # Min 1 day for new accounts
+    else:
+        account_age_days = 1
+        
+    usage_percent = round((current_user.questions_today / current_user.daily_limit) * 100) if current_user.daily_limit > 0 else 0
+    
+    return render_template('dashboard.html', 
+                           user=current_user, 
+                           account_age=account_age_days,
+                           usage_percent=usage_percent,
+                           remaining=current_user.daily_limit - current_user.questions_today)
 
 
 # -------------------------
@@ -249,6 +263,7 @@ def ask_ai():
         answer = chat_completion.choices[0].message.content
 
         current_user.questions_today += 1
+        current_user.total_questions_asked = (current_user.total_questions_asked or 0) + 1
         add_xp(current_user, 10, subject=subject, action="Asked Question")
         db.session.commit()
 
@@ -295,6 +310,7 @@ def generate_notes():
         )
         notes_content = chat_completion.choices[0].message.content
         current_user.questions_today += 1
+        current_user.total_questions_asked = (current_user.total_questions_asked or 0) + 1
         add_xp(current_user, 20, subject=subject, action="Generated Notes")
         db.session.commit()
 
@@ -341,6 +357,7 @@ def generate_quiz():
         import json
         quiz_json = json.loads(chat_completion.choices[0].message.content)
         current_user.questions_today += 1
+        current_user.total_questions_asked = (current_user.total_questions_asked or 0) + 1
         add_xp(current_user, 15, subject=subject, action="Generated Quiz")
         db.session.commit()
 
@@ -439,6 +456,7 @@ def vision_ask():
         )
         answer = completion.choices[0].message.content
         current_user.questions_today += 1
+        current_user.total_questions_asked = (current_user.total_questions_asked or 0) + 1
         add_xp(current_user, 15, subject="Image OCR", action="Asked via Image")
         return jsonify({'answer': answer, 'questions_left': current_user.daily_limit - current_user.questions_today})
     except Exception as e:
@@ -463,6 +481,7 @@ def pdf_chat():
         )
         answer = chat_completion.choices[0].message.content
         current_user.questions_today += 1
+        current_user.total_questions_asked = (current_user.total_questions_asked or 0) + 1
         add_xp(current_user, 20, subject="PDF Analysis", action="Consulted PDF")
         return jsonify({'answer': answer, 'questions_left': current_user.daily_limit - current_user.questions_today})
     except Exception as e: return jsonify({'error': str(e)}), 500

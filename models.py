@@ -15,6 +15,10 @@ class User(UserMixin, db.Model):
     daily_limit = db.Column(db.Integer, default=5)
     student_class = db.Column(db.String(50), nullable=True)
     
+    # usage/SaaS tracking
+    total_questions_asked = db.Column(db.Integer, default=0)
+    account_created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
     # Gamification
     xp = db.Column(db.Integer, default=0)
     level = db.Column(db.Integer, default=1)
