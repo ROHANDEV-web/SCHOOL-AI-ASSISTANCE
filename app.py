@@ -11,7 +11,8 @@ from models import db, User, Note
 load_dotenv()
 
 app = Flask(__name__)
-
+from flask_compress import Compress
+Compress(app)
 # =========================
 # SECURITY
 # =========================
@@ -206,7 +207,7 @@ def ask_ai():
             ],
             model="llama-3.1-8b-instant",
             temperature=0.7,
-            max_tokens=1024,
+            max_tokens=400,
         )
 
         answer = chat_completion.choices[0].message.content
@@ -279,4 +280,4 @@ with app.app_context():
     db.create_all()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)
