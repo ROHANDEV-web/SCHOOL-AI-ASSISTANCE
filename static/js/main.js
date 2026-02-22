@@ -223,6 +223,22 @@ async function loadLeaderboard() {
     document.getElementById('leaderboard-body').innerHTML = data.map((u, i) => `<tr><td class="px-6 py-4">#${i + 1}</td><td class="px-6 py-4">${u.username}</td><td class="px-6 py-4">${u.xp}</td><td class="px-6 py-4">Lvl ${u.level}</td></tr>`).join('');
 }
 
+// Payment Modal Logic
+window.openPaymentModal = function () {
+    document.getElementById('payment-modal').classList.remove('hidden');
+};
+
+window.closePaymentModal = function () {
+    document.getElementById('payment-modal').classList.add('hidden');
+};
+
+window.copyUPI = function () {
+    const upiId = document.getElementById('upi-id').textContent;
+    navigator.clipboard.writeText(upiId).then(() => {
+        alert('UPI ID copied to clipboard!');
+    });
+};
+
 // Update Class Logic
 window.openUpdateClassModal = function () {
     document.getElementById('class-modal').classList.remove('hidden');
