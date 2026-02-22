@@ -57,7 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (res.ok) {
                 appendMessage('AI', data.answer);
                 updateCredits(data.questions_left);
-            } else appendMessage('System', data.error || 'Limit Reached');
+            } else {
+                appendMessage('System', data.error || 'Limit Reached');
+                if (data.limit_reached) handleLimitReached();
+            }
         } catch (err) { appendMessage('System', 'Network Error'); }
     });
 
@@ -143,7 +146,15 @@ window.generateToolContent = async function () {
         const res = await fetch(endpoint, { method: 'POST', body, ...(isMultipart ? {} : { headers: { 'Content-Type': 'application/json' } }) });
         const data = await res.json();
         document.getElementById('tool-loading').classList.add('hidden');
-        if (!res.ok) throw new Error(data.error);
+        if (!res.ok) {
+            if (data.limit_reached) {
+                closeToolModal();
+                handleLimitReached();
+            } else {
+                throw new Error(data.error);
+            }
+            return;
+        }
 
         updateCredits(data.questions_left);
         if (currentTool === 'quiz') { currentQuizData = data.quiz; currentQuizTopic = topic; renderQuiz(); }
@@ -241,3 +252,72 @@ window.submitClassUpdate = async function () {
         alert('Network error');
     }
 };
+// Ad Flow Logic
+let adTimerInterval = null;
+window.startAdFlow = function () {
+    const modal = document.getElementById('ad-modal');
+    const timerEl = document.getElementById('ad-timer');
+    const progressBar = document.getElementById('ad-progress-bar');
+    const closeBtn = document.getElementById('close-ad-btn');
+    const overlay = document.getElementById('ad-overlay-msg');
+
+    modal.classList.remove('hidden');
+    overlay.classList.remove('opacity-0');
+
+    let timeLeft = 15;
+    timerEl.textContent = timeLeft + 's';
+    progressBar.style.width = '0%';
+    closeBtn.disabled = true;
+    closeBtn.textContent = 'Please wait...';
+    closeBtn.className = 'w-full py-3 bg-gray-800 text-gray-500 rounded-xl font-bold transition-all disabled:cursor-not-allowed';
+
+    // Hide overlay after 2 seconds to show the ad
+    setTimeout(() => {
+        overlay.classList.add('opacity-0');
+        setTimeout(() => overlay.classList.add('hidden'), 500);
+    }, 2000);
+
+    clearInterval(adTimerInterval);
+    adTimerInterval = setInterval(() => {
+        timeLeft--;
+        timerEl.textContent = timeLeft + 's';
+        const progress = ((15 - timeLeft) / 15) * 100;
+        progressBar.style.width = progress + '%';
+
+        if (timeLeft <= 0) {
+            clearInterval(adTimerInterval);
+            timerEl.textContent = 'Reward Ready!';
+            closeBtn.disabled = false;
+            closeBtn.textContent = 'Claim Reward & Close';
+            closeBtn.className = 'w-full py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold shadow-lg shadow-amber-600/20 transition-all';
+        }
+    }, 1000);
+};
+
+window.closeAdFlow = async function () {
+    const closeBtn = document.getElementById('close-ad-btn');
+    if (closeBtn.disabled) return;
+
+    try {
+        const res = await fetch('/api/watch-ad', { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+            alert('Congratulations! You earned +1 question credit.');
+            // Update UI
+            const currentCredits = parseInt(document.getElementById('dash-credits').textContent);
+            updateCredits(currentCredits + 1);
+        }
+    } catch (err) {
+        console.error('Error claiming reward:', err);
+    } finally {
+        document.getElementById('ad-modal').classList.add('hidden');
+        document.getElementById('ad-overlay-msg').classList.remove('hidden', 'opacity-0');
+    }
+};
+
+// Auto-prompt ad when limit reached
+function handleLimitReached() {
+    if (confirm('You have reached your daily limit. Would you like to watch a short ad to get 1 more question?')) {
+        startAdFlow();
+    }
+}
