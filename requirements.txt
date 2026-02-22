@@ -6,3 +6,4 @@ python-dotenv
 groq
 markdown
 gunicorn
+flask-compress
