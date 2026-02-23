@@ -1,52 +1,120 @@
 {% extends "base.html" %}
+
 {% block content %}
-<div class="max-w-4xl mx-auto px-4 text-white">
-    <h1 class="text-3xl font-bold mb-6">Privacy Policy</h1>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
+        <h1 class="text-4xl font-extrabold text-white mb-8 border-b border-white/10 pb-4">Privacy Policy</h1>
 
-    <p class="mb-4">
-        At School AI Assistance, we respect your privacy. This Privacy Policy explains how we collect, use, and protect
-        your information.
-    </p>
+        <div class="prose prose-invert prose-blue max-w-none text-gray-400 space-y-6">
+            <p class="text-sm italic">Last Updated: February 23, 2026</p>
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">Information We Collect</h2>
-    <ul class="list-disc ml-6 mb-4">
-        <li>Basic account information (username, email)</li>
-        <li>Usage data such as questions asked</li>
-        <li>Technical information like IP address and browser type</li>
-    </ul>
+            <p>Welcome to AI Tutor ("we," "our," or "us"). We are committed to protecting your privacy and ensuring that
+                your personal information is handled in a safe and responsible manner. This Privacy Policy outlines how
+                we collect, use, disclose, and safeguard your information when you visit our website and use our
+                educational tools.</p>
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">Cookies & Advertising</h2>
-    <p class="mb-4">
-        This website uses Google AdSense to display advertisements. Google may use cookies and web beacons to serve ads
-        based on your visits to this and other websites.
-    </p>
+            <h2 class="text-2xl font-bold text-white mt-8">1. Information We Collect</h2>
+            <p>We collect information that you provide directly to us, as well as information that is collected
+                automatically through your use of our services.</p>
 
-    <p class="mb-4">
-        You may opt out of personalized advertising by visiting:
-        https://www.google.com/settings/ads
-    </p>
+            <h3 class="text-xl font-semibold text-white">A. Personal Information</h3>
+            <p>When you register for an account, we may collect information such as:</p>
+            <ul class="list-disc pl-6">
+                <li>Username and email address</li>
+                <li>Password (encrypted)</li>
+                <li>Educational level or class (to personalize AI responses)</li>
+                <li>Profile information and preferences</li>
+            </ul>
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">Data Protection</h2>
-    <p class="mb-4">
-        We do not sell or share personal data with third parties except as required by law.
-    </p>
+            <h3 class="text-xl font-semibold text-white">B. Usage Data</h3>
+            <p>We automatically collect information about how you interact with our platform, including:</p>
+            <ul class="list-disc pl-6">
+                <li>IP address and browser type</li>
+                <li>Operating system and device information</li>
+                <li>Pages visited and time spent on the site</li>
+                <li>Questions asked to the AI and educational content generated</li>
+                <li>XP earned and level progress</li>
+            </ul>
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">Consent</h2>
-    <p>
-        By using this website, you consent to this Privacy Policy.
-    </p>
+            <h2 class="text-2xl font-bold text-white mt-8">2. How We Use Your Information</h2>
+            <p>We use the collected information for various purposes, including:</p>
+            <ul class="list-disc pl-6">
+                <li>Providing and maintaining our educational services</li>
+                <li>Personalizing your learning experience based on your grade level</li>
+                <li>Managing your account and providing customer support</li>
+                <li>Analyzing usage patterns to improve our AI models and user interface</li>
+                <li>Communicating with you about updates, security alerts, and support messages</li>
+                <li>Monitoring and preventing fraudulent activity or policy violations</li>
+            </ul>
 
-    <p class="mt-6 text-gray-400 text-sm">
-        Last updated: February 2026
-    </p>
+            <h2 class="text-2xl font-bold text-white mt-8">3. Cookies and Tracking Technologies</h2>
+            <p>We use cookies and similar tracking technologies to track activity on our platform and hold certain
+                information. Cookies are files with a small amount of data which may include an anonymous unique
+                identifier. You can instruct your browser to refuse all cookies or to indicate when a cookie is being
+                sent. However, if you do not accept cookies, you may not be able to use some portions of our service.
+            </p>
+            <p>We use both session cookies (which expire when you close your browser) and persistent cookies (which stay
+                on your device until they expire or are deleted) to provide a consistent and personalized experience.
+            </p>
 
-    <!-- Ad Space -->
-    <div class="mt-12 glass-panel p-4 rounded-2xl overflow-hidden">
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6582101258895011"
-            data-ad-slot="6700052244" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+            <h2 class="text-2xl font-bold text-white mt-8">4. Third-Party Services and Analytics</h2>
+            <p>We may employ third-party companies and individuals to facilitate our service, provide the service on our
+                behalf, or perform service-related services. These third parties include:</p>
+            <ul class="list-disc pl-6">
+                <li><strong>AI Model Providers:</strong> We use services like Groq and LLAMA models to process
+                    educational queries. While we do not share your identity with these providers, the text of your
+                    questions is processed by their systems.</li>
+                <li><strong>Analytics Providers:</strong> We may use third-party analytics tools (such as Google
+                    Analytics) to help us understand how users engage with our platform.</li>
+                <li><strong>Advertising Partners:</strong> We may use Google AdSense to display advertisements. Google’s
+                    use of advertising cookies enables it and its partners to serve ads based on your visit to our site
+                    and other sites on the Internet.</li>
+            </ul>
+
+            <h2 class="text-2xl font-bold text-white mt-8">5. Data Security</h2>
+            <p>The security of your data is important to us. We implement industry-standard security measures to protect
+                your personal information from unauthorized access, alteration, disclosure, or destruction. This
+                includes the use of SSL encryption, hashed passwords, and regular security audits. However, please
+                remember that no method of transmission over the Internet or method of electronic storage is 100%
+                secure.</p>
+
+            <h2 class="text-2xl font-bold text-white mt-8">6. Data Retention</h2>
+            <p>We will retain your personal information only for as long as is necessary for the purposes set out in
+                this Privacy Policy. We will retain and use your information to the extent necessary to comply with our
+                legal obligations, resolve disputes, and enforce our legal agreements and policies. Usage data is
+                generally retained for a shorter period of time, except when this data is used to strengthen the
+                security or to improve the functionality of our service.</p>
+
+            <h2 class="text-2xl font-bold text-white mt-8">7. Children's Privacy</h2>
+            <p>Our service is designed for students of various ages. We are committed to complying with the Children's
+                Online Privacy Protection Act (COPPA). We do not knowingly collect personally identifiable information
+                from children under 13 without verifiable parental consent. If you are a parent or guardian and you are
+                aware that your child has provided us with personal data, please contact us.</p>
+
+            <h2 class="text-2xl font-bold text-white mt-8">8. Your Rights</strong></h2>
+            <p>Depending on your location, you may have certain rights regarding your personal information, including
+                the right to access, correct, or delete the data we hold about you. You may also have the right to
+                object to or restrict certain processing of your data. To exercise these rights, please contact us using
+                the information provided below.</p>
+
+            <h2 class="text-2xl font-bold text-white mt-8">9. Changes to This Privacy Policy</strong></h2>
+            <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new
+                Privacy Policy on this page and updating the "Last Updated" date at the top. You are advised to review
+                this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they
+                are posted on this page.</p>
+
+            <h2 class="text-2xl font-bold text-white mt-8">10. Contact Us</strong></h2>
+            <p>If you have any questions about this Privacy Policy, please contact us:</p>
+            <ul class="list-disc pl-6">
+                <li>By email: privacy@aitutor.com</li>
+                <li>By visiting the contact page on our website.</li>
+            </ul>
+
+            <div class="mt-12 p-6 bg-blue-500/10 border border-blue-500/20 rounded-2xl">
+                <p class="text-sm text-gray-300">Note: This privacy policy is part of our commitment to transparency and
+                    AdSense compliance. We do not sell your personal data to third parties.</p>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

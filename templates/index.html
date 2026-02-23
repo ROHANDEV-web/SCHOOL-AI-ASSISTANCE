@@ -4,69 +4,126 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mt-20 lg:mt-32 animate-fade-in">
         <h1
-            class="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 mb-6 pb-2">
-            Master Any Subject <br> with AI Power
+            class="text-5xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 mb-6 pb-2">
+            The Future of Learning <br> is Personalized
         </h1>
         <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
-            Your personal AI tutor for everything from Grade 1 to College level.
-            Solve doubts, verify code, and take notes—all in one place.
+            AI Tutor empowers students with 24/7 personalized educational support. From Grade 1 to College, we help you
+            master every subject through the power of artificial intelligence.
         </p>
 
         <div class="flex justify-center gap-4 mb-20 animate-fade-in" style="animation-delay: 0.2s">
             <a href="{{ url_for('register') }}"
-                class="px-8 py-4 glass-btn rounded-xl text-white font-bold text-lg shadow-xl shadow-blue-500/20 flex items-center gap-2">
-                Start Learning Free
+                class="px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-xl text-white font-bold text-lg shadow-xl shadow-blue-500/20 flex items-center gap-2 transition-all transform hover:scale-105">
+                Start Learning Now
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd"
                         d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
                         clip-rule="evenodd" />
                 </svg>
             </a>
+            <a href="{{ url_for('blog') }}"
+                class="px-8 py-4 bg-white/5 hover:bg-white/10 rounded-xl text-white font-bold text-lg flex items-center gap-2 transition-all">
+                Read Our Blog
+            </a>
         </div>
 
         <!-- Features Grid -->
         <div class="grid md:grid-cols-3 gap-8 text-left animate-fade-in" style="animation-delay: 0.4s">
-            <div class="glass-panel p-8 rounded-2xl relative overflow-hidden group hover:bg-white/5 transition-colors">
-                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <svg class="w-24 h-24 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z" />
+            <div
+                class="glass-panel p-8 rounded-3xl relative overflow-hidden group hover:border-blue-500/50 transition-all">
+                <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-400 mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <h3 class="text-2xl font-bold text-white mb-2">Instant Doubts</h3>
-                <p class="text-gray-400">Get instant answers for Math, Physics, Science, and more. Just ask and learn.
-                </p>
+                <h3 class="text-2xl font-bold text-white mb-2">Instant Answers</h3>
+                <p class="text-gray-400">Get deep explanations for any subject. From complex physics to coding
+                    challenges, your AI tutor is always ready.</p>
             </div>
 
-            <div class="glass-panel p-8 rounded-2xl relative overflow-hidden group hover:bg-white/5 transition-colors">
-                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <svg class="w-24 h-24 text-emerald-500" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
+            <div
+                class="glass-panel p-8 rounded-3xl relative overflow-hidden group hover:border-emerald-500/50 transition-all">
+                <div
+                    class="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center text-emerald-400 mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                 </div>
-                <h3 class="text-2xl font-bold text-white mb-2">Code Assistant</h3>
-                <p class="text-gray-400">Stuck on a Python script or C++ bug? Paste your code and get a fix instantly.
-                </p>
+                <h3 class="text-2xl font-bold text-white mb-2">Auto-Study Notes</h3>
+                <p class="text-gray-400">Convert any topic into comprehensive study notes instantly. Perfect for exam
+                    revision and organized learning.</p>
             </div>
 
-            <div class="glass-panel p-8 rounded-2xl relative overflow-hidden group hover:bg-white/5 transition-colors">
-                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <svg class="w-24 h-24 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            <div
+                class="glass-panel p-8 rounded-3xl relative overflow-hidden group hover:border-purple-500/50 transition-all">
+                <div
+                    class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center text-purple-400 mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
                     </svg>
                 </div>
-                <h3 class="text-2xl font-bold text-white mb-2">Smart Notes</h3>
-                <p class="text-gray-400">Save important explanations directly to your dashboard. Review anytime.</p>
-            </div>
-            <!-- Ad Space -->
-            <div class="mt-20 glass-panel p-4 rounded-2xl overflow-hidden">
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6582101258895011"
-                    data-ad-slot="6700052244" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
+                <h3 class="text-2xl font-bold text-white mb-2">Progress Tracking</h3>
+                <p class="text-gray-400">Earn XP, level up, and track your learning journey through our interactive
+                    gamification system.</p>
             </div>
         </div>
+
+        <!-- Latest from Blog -->
+        <div class="mt-32 text-left">
+            <div class="flex items-end justify-between mb-12">
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-2">Academic Excellence Blog</h2>
+                    <p class="text-gray-500">Latest insights on study habits and AI in education.</p>
+                </div>
+                <a href="{{ url_for('blog') }}"
+                    class="text-blue-400 font-bold hover:text-blue-300 transition-colors">View All Posts →</a>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Blog Preview (First 3) -->
+                <div class="glass-panel p-6 rounded-3xl border border-white/5 hover:bg-white/5 transition-all">
+                    <span class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">Study Tips</span>
+                    <h4 class="text-lg font-bold text-white mt-2 mb-4">Effective Study Techniques</h4>
+                    <p class="text-sm text-gray-400 mb-4 line-clamp-2">Learn the science behind active recall and spaced
+                        repetition to boost your memory.</p>
+                    <a href="{{ url_for('blog_post', slug='effective-study-techniques') }}"
+                        class="text-xs font-bold text-white">Read More</a>
+                </div>
+                <div class="glass-panel p-6 rounded-3xl border border-white/5 hover:bg-white/5 transition-all">
+                    <span class="text-[10px] font-bold text-purple-500 uppercase tracking-widest">AI & Tech</span>
+                    <h4 class="text-lg font-bold text-white mt-2 mb-4">AI for Better Learning</h4>
+                    <p class="text-sm text-gray-400 mb-4 line-clamp-2">How artificial intelligence is revolutionizing
+                        the way students learn and interact with information.</p>
+                    <a href="{{ url_for('blog_post', slug='ai-for-better-learning') }}"
+                        class="text-xs font-bold text-white">Read More</a>
+                </div>
+                <div class="glass-panel p-6 rounded-3xl border border-white/5 hover:bg-white/5 transition-all">
+                    <span class="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Efficiency</span>
+                    <h4 class="text-lg font-bold text-white mt-2 mb-4">Mastering Time Management</h4>
+                    <p class="text-sm text-gray-400 mb-4 line-clamp-2">Practical strategies to manage your schedule and
+                        reduce exam stress effectively.</p>
+                    <a href="{{ url_for('blog_post', slug='time-management-for-exams') }}"
+                        class="text-xs font-bold text-white">Read More</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div
+            class="mt-32 mb-20 bg-gradient-to-br from-blue-600/20 to-purple-600/20 p-12 md:p-20 rounded-[3rem] border border-blue-500/30 text-center relative overflow-hidden">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Ready to Accelerate Your Learning?</h2>
+            <p class="text-gray-400 max-w-xl mx-auto mb-10">Join thousands of students who are already using AI Tutor to
+                reach their academic goals.</p>
+            <a href="{{ url_for('register') }}"
+                class="px-10 py-5 bg-white text-gray-900 font-extrabold rounded-2xl shadow-2xl hover:bg-blue-50 transition-all transform hover:scale-105 inline-block">
+                Join Now for Free
+            </a>
+        </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}

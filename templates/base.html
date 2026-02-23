@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Tutor - Premium Learning Platform</title>
+    <title>AI Tutor - Excellence in Education</title>
 
     <!-- Google AdSense Verification -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6582101258895011"
@@ -69,6 +69,9 @@
                     <a href="{{ url_for('notes') }}"
                         class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Notes</a>
 
+                    <a href="{{ url_for('blog') }}"
+                        class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Blog</a>
+
                     <a href="{{ url_for('about') }}"
                         class="text-gray-300 hover:text-white transition-colors text-sm font-medium">About</a>
 
@@ -87,6 +90,8 @@
                         </svg>
                     </button>
                     {% else %}
+                    <a href="{{ url_for('blog') }}"
+                        class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Blog</a>
                     <a href="{{ url_for('about') }}"
                         class="text-gray-300 hover:text-white transition-colors text-sm font-medium">About</a>
 
