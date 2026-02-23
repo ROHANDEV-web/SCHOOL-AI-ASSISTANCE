@@ -4,11 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Tutor </title>
+
+    <!-- ===================== SEO: Title ===================== -->
+    <title>{% if title %}{{ title }} | AI Tutor - CBSE School Assistance{% else %}AI Tutor - Free CBSE & School AI
+        Assistance for Students{% endif %}</title>
+
+    <!-- ===================== SEO: Core Meta Tags ===================== -->
     <meta name="description"
-        content=" Reliable study assistance ">
+        content="{% if meta_description %}{{ meta_description }}{% else %}AI Tutor provides free AI-powered CBSE school assistance for students from Class 1 to College. Get instant doubt solving, auto-generated notes, quizzes, and more.{% endif %}">
     <meta name="keywords"
-        content=" AI Tutor, study assistant">
+        content="{% if meta_keywords %}{{ meta_keywords }}{% else %}CBSE AI tutor, school AI assistance, free AI tutor India, CBSE doubt solving, AI study assistant, class 1 to 12 notes, NCERT AI help, school homework help, AI quiz generator, student learning app{% endif %}">
+    <meta name="author" content="Rohan Singh">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+
+    <!-- ===================== SEO: Canonical URL ===================== -->
+    <link rel="canonical" href="https://school-ai-assistance.onrender.com{{ request.path }}">
+
+    <!-- ===================== SEO: Open Graph (Social Media) ===================== -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AI Tutor - School AI Assistance">
+    <meta property="og:title"
+        content="{% if title %}{{ title }} | AI Tutor{% else %}AI Tutor - Free CBSE & School AI Assistance{% endif %}">
+    <meta property="og:description"
+        content="{% if meta_description %}{{ meta_description }}{% else %}Free AI-powered CBSE school assistance. Instant doubt solving, auto notes, quizzes & more for students Class 1 to College.{% endif %}">
+    <meta property="og:url" content="https://school-ai-assistance.onrender.com{{ request.path }}">
+    <meta property="og:image" content="https://school-ai-assistance.onrender.com/static/og-image.png">
+    <meta property="og:locale" content="en_IN">
+
+    <!-- ===================== SEO: Twitter Card ===================== -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title"
+        content="{% if title %}{{ title }} | AI Tutor{% else %}AI Tutor - Free CBSE School AI Assistance{% endif %}">
+    <meta name="twitter:description"
+        content="{% if meta_description %}{{ meta_description }}{% else %}Free AI-powered CBSE school assistance. Instant doubt solving, auto notes, and quizzes for students.{% endif %}">
+    <meta name="twitter:image" content="https://school-ai-assistance.onrender.com/static/og-image.png">
+
+    <!-- ===================== SEO: Google Site Verification ===================== -->
     <meta name="google-site-verification" content="VywHi3yQ90K4PhBMOuZqOorD-qw3doSJcHa-G712rGo" />
 
     <!-- Google AdSense Verification -->

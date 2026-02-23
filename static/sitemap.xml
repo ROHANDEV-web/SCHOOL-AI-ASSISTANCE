@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <!-- Homepage -->
+    <url>
+        <loc>https://school-ai-assistance.onrender.com/</loc>
+        <lastmod>2026-02-23</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- About Page -->
+    <url>
+        <loc>https://school-ai-assistance.onrender.com/about</loc>
+        <lastmod>2026-02-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Contact Page -->
+    <url>
+        <loc>https://school-ai-assistance.onrender.com/contact</loc>
+        <lastmod>2026-02-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Blog Page -->
+    <url>
+        <loc>https://school-ai-assistance.onrender.com/blog</loc>
+        <lastmod>2026-02-23</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Privacy Policy -->
+    <url>
+        <loc>https://school-ai-assistance.onrender.com/privacy</loc>
+        <lastmod>2026-02-23</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+
+    <!-- Terms of Service -->
+    <url>
+        <loc>https://school-ai-assistance.onrender.com/terms</loc>
+        <lastmod>2026-02-23</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+
+</urlset>

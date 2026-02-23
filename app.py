@@ -76,25 +76,24 @@ def check_daily_reset(user):
 # ROUTES
 # =========================
 
+# =========================
+# SEO ROUTES
+# =========================
+
 @app.route('/robots.txt')
 def robots():
-    return send_from_directory(app.root_path, 'static/robots.txt')
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'robots.txt')
 
 @app.route('/sitemap.xml')
 def sitemap():
-    xml = """<?xml version="1.0" encoding="UTF-8"?>
-    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-        <url>
-            <loc>https://school-ai-assistance.onrender.com/</loc>
-            <lastmod>2026-02-23</lastmod>
-            <priority>1.0</priority>
-        </url>
-    </urlset>"""
-    return xml, 200, {'Content-Type': 'application/xml'}
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'sitemap.xml')
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html',
+        title="Free CBSE AI Tutor for Students Class 1 to College",
+        meta_description="AI Tutor is a free CBSE AI school assistance platform. Get instant doubt solving, AI-generated study notes, quizzes & progress tracking for students Class 1 to College.",
+        meta_keywords="CBSE AI tutor, free school AI assistance, NCERT help, class 1 to 12 AI tutor, AI doubt solving, online study tool India")
 
 @app.route('/taxi')
 def taxi():
@@ -102,30 +101,48 @@ def taxi():
 
 @app.route('/blog')
 def blog():
-    return render_template('blog.html', posts=blog_posts)
+    return render_template('blog.html', posts=blog_posts,
+        title="Educational Blog - CBSE Tips & AI Study Guides",
+        meta_description="Read CBSE study tips, AI learning guides, and educational articles for students. Expert advice on scoring well in Class 10, 12, and beyond.",
+        meta_keywords="CBSE blog, education tips, AI study guide, school exam tips, NCERT solutions blog")
 
 @app.route('/blog/<slug>')
 def blog_post(slug):
     post = blog_posts.get(slug)
     if not post:
         return redirect(url_for('blog'))
-    return render_template('blog_post.html', post=post)
+    return render_template('blog_post.html', post=post,
+        title=post.get('title', 'Blog Post'),
+        meta_description=post.get('excerpt', 'Read this educational article on AI Tutor.')[:160],
+        meta_keywords=f"CBSE, {post.get('subject', 'education')}, AI tutor, school assistance")
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html',
+        title="About AI Tutor - CBSE School AI Assistance Platform",
+        meta_description="Learn about AI Tutor — a free AI-powered CBSE school assistance platform built by Rohan Singh for Indian students from Class 1 to College.",
+        meta_keywords="about AI tutor, CBSE AI platform, school AI assistance India, Rohan Singh AI tutor")
 
 @app.route('/privacy')
 def privacy():
-    return render_template('privacy.html')
+    return render_template('privacy.html',
+        title="Privacy Policy - AI Tutor",
+        meta_description="Read the Privacy Policy for AI Tutor. We are committed to protecting your data and privacy as a student using our CBSE AI assistance platform.",
+        meta_keywords="privacy policy, AI tutor privacy, data protection, student data safety")
 
 @app.route('/terms')
 def terms():
-    return render_template('terms.html')
+    return render_template('terms.html',
+        title="Terms of Service - AI Tutor",
+        meta_description="Review the Terms of Service for AI Tutor. Understanding the rules and guidelines for using our free CBSE AI assistance platform.",
+        meta_keywords="terms of service, AI tutor terms, user agreement, school AI assistance terms")
 
 @app.route('/contact')
 def contact():
-    return render_template('contact.html')
+    return render_template('contact.html',
+        title="Contact Us - AI Tutor",
+        meta_description="Get in touch with the AI Tutor team. Contact us for support, feedback, or partnerships related to our CBSE AI school assistance platform.",
+        meta_keywords="contact AI tutor, student support, CBSE AI help contact, school AI assistance feedback")
 
 # -------------------------
 # AUTH ROUTES

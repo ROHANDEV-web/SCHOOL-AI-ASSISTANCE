@@ -1,8 +1,4 @@
 User-agent: *
 Allow: /
-Allow: /tutor
-Disallow: /dashboard/
-Disallow: /register
-Disallow: /login
 
 Sitemap: https://school-ai-assistance.onrender.com/sitemap.xml
