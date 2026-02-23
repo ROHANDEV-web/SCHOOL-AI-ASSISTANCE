@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, send_from_directory
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
@@ -529,6 +529,13 @@ def download_pdf():
     pdf.multi_cell(0, 10, txt=data.get('content', ''))
     pdf_output = BytesIO(); pdf.output(pdf_output); pdf_output.seek(0)
     return send_file(pdf_output, as_attachment=True, download_name="study_doc.pdf", mimetype='application/pdf')
+
+# -------------------------
+# GOOGLE ADS.TXT
+# -------------------------
+@app.route('/ads.txt')
+def ads_txt():
+    return send_from_directory(app.root_path, 'ads.txt')
 
 # =========================
 # RUN
