@@ -76,9 +76,29 @@ def check_daily_reset(user):
 # ROUTES
 # =========================
 
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory(app.root_path, 'static/robots.txt')
+
+@app.route('/sitemap.xml')
+def sitemap():
+    xml = """<?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        <url>
+            <loc>https://school-ai-assistance.onrender.com/</loc>
+            <lastmod>2026-02-23</lastmod>
+            <priority>1.0</priority>
+        </url>
+    </urlset>"""
+    return xml, 200, {'Content-Type': 'application/xml'}
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/taxi')
+def taxi():
+    return render_template('taxi_index.html')
 
 @app.route('/blog')
 def blog():
