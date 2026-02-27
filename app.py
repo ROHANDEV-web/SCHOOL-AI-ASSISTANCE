@@ -95,9 +95,7 @@ def index():
         meta_description="AI Tutor is a free CBSE AI school assistance platform. Get instant doubt solving, AI-generated study notes, quizzes & progress tracking for students Class 1 to College.",
         meta_keywords="CBSE AI tutor, free school AI assistance, NCERT help, class 1 to 12 AI tutor, AI doubt solving, online study tool India")
 
-@app.route('/taxi')
-def taxi():
-    return render_template('taxi_index.html')
+
 
 @app.route('/blog')
 def blog():
@@ -413,7 +411,7 @@ def download_pdf():
 
 @app.route('/ads.txt')
 def ads_txt():
-    return send_from_directory(app.root_path, 'ads.txt')
+    return send_from_directory('static', 'ads.txt')
 
 # =========================
 # RUN
