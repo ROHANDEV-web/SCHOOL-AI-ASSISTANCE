@@ -60,7 +60,7 @@ def add_xp(user, amount, subject=None, action=None):
     new_level = (user.xp // 100) + 1
     if new_level > user.level:
         user.level = new_level
-        user.daily_limit += 1 
+        user.daily_limit += 1
     log = ActivityLog(subject=subject, action=action, user_id=user.id)
     db.session.add(log)
     db.session.commit()
@@ -76,10 +76,6 @@ def check_daily_reset(user):
 # ROUTES
 # =========================
 
-# =========================
-# SEO ROUTES
-# =========================
-
 @app.route('/robots.txt')
 def robots():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'robots.txt')
@@ -91,18 +87,16 @@ def sitemap():
 @app.route('/')
 def index():
     return render_template('index.html',
-        title="Free CBSE AI Tutor for Students Class 1 to College",
-        meta_description="AI Tutor is a free CBSE AI school assistance platform. Get instant doubt solving, AI-generated study notes, quizzes & progress tracking for students Class 1 to College.",
-        meta_keywords="CBSE AI tutor, free school AI assistance, NCERT help, class 1 to 12 AI tutor, AI doubt solving, online study tool India")
-
-
+                           title="Free CBSE AI Tutor for Students Class 1 to College",
+                           meta_description="AI Tutor is a free CBSE AI school assistance platform. Get instant doubt solving, AI-generated study notes, quizzes & progress tracking for students Class 1 to College.",
+                           meta_keywords="CBSE AI tutor, free school AI assistance, NCERT help, class 1 to 12 AI tutor, AI doubt solving, online study tool India")
 
 @app.route('/blog')
 def blog():
     return render_template('blog.html', posts=blog_posts,
-        title="Educational Blog - CBSE Tips & AI Study Guides",
-        meta_description="Read CBSE study tips, AI learning guides, and educational articles for students. Expert advice on scoring well in Class 10, 12, and beyond.",
-        meta_keywords="CBSE blog, education tips, AI study guide, school exam tips, NCERT solutions blog")
+                           title="Educational Blog - CBSE Tips & AI Study Guides",
+                           meta_description="Read CBSE study tips, AI learning guides, and educational articles for students. Expert advice on scoring well in Class 10, 12, and beyond.",
+                           meta_keywords="CBSE blog, education tips, AI study guide, school exam tips, NCERT solutions blog")
 
 @app.route('/blog/<slug>')
 def blog_post(slug):
@@ -110,37 +104,37 @@ def blog_post(slug):
     if not post:
         return redirect(url_for('blog'))
     return render_template('blog_post.html', post=post,
-        title=post.get('title', 'Blog Post'),
-        meta_description=post.get('excerpt', 'Read this educational article on AI Tutor.')[:160],
-        meta_keywords=f"CBSE, {post.get('subject', 'education')}, AI tutor, school assistance")
+                           title=post.get('title', 'Blog Post'),
+                           meta_description=post.get('excerpt', 'Read this educational article on AI Tutor.')[:160],
+                           meta_keywords=f"CBSE, {post.get('subject', 'education')}, AI tutor, school assistance")
 
 @app.route('/about')
 def about():
     return render_template('about.html',
-        title="About AI Tutor - CBSE School AI Assistance Platform",
-        meta_description="Learn about AI Tutor — a free AI-powered CBSE school assistance platform built by Rohan Singh for Indian students from Class 1 to College.",
-        meta_keywords="about AI tutor, CBSE AI platform, school AI assistance India, Rohan Singh AI tutor")
+                           title="About AI Tutor - CBSE School AI Assistance Platform",
+                           meta_description="Learn about AI Tutor — a free AI-powered CBSE school assistance platform built by Rohan Singh for Indian students from Class 1 to College.",
+                           meta_keywords="about AI tutor, CBSE AI platform, school AI assistance India, Rohan Singh AI tutor")
 
 @app.route('/privacy')
 def privacy():
     return render_template('privacy.html',
-        title="Privacy Policy - AI Tutor",
-        meta_description="Read the Privacy Policy for AI Tutor. We are committed to protecting your data and privacy as a student using our CBSE AI assistance platform.",
-        meta_keywords="privacy policy, AI tutor privacy, data protection, student data safety")
+                           title="Privacy Policy - AI Tutor",
+                           meta_description="Read the Privacy Policy for AI Tutor. We are committed to protecting your data and privacy as a student using our CBSE AI assistance platform.",
+                           meta_keywords="privacy policy, AI tutor privacy, data protection, student data safety")
 
 @app.route('/terms')
 def terms():
     return render_template('terms.html',
-        title="Terms of Service - AI Tutor",
-        meta_description="Review the Terms of Service for AI Tutor. Understanding the rules and guidelines for using our free CBSE AI assistance platform.",
-        meta_keywords="terms of service, AI tutor terms, user agreement, school AI assistance terms")
+                           title="Terms of Service - AI Tutor",
+                           meta_description="Review the Terms of Service for AI Tutor. Understanding the rules and guidelines for using our free CBSE AI assistance platform.",
+                           meta_keywords="terms of service, AI tutor terms, user agreement, school AI assistance terms")
 
 @app.route('/contact')
 def contact():
     return render_template('contact.html',
-        title="Contact Us - AI Tutor",
-        meta_description="Get in touch with the AI Tutor team. Contact us for support, feedback, or partnerships related to our CBSE AI school assistance platform.",
-        meta_keywords="contact AI tutor, student support, CBSE AI help contact, school AI assistance feedback")
+                           title="Contact Us - AI Tutor",
+                           meta_description="Get in touch with the AI Tutor team. Contact us for support, feedback, or partnerships related to our CBSE AI school assistance platform.",
+                           meta_keywords="contact AI tutor, student support, CBSE AI help contact, school AI assistance feedback")
 
 # -------------------------
 # AUTH ROUTES
@@ -189,7 +183,7 @@ def logout():
     return redirect(url_for('index'))
 
 # -------------------------
-# DASHBOARD & API
+# DASHBOARD & USAGE
 # -------------------------
 @app.route('/dashboard')
 @login_required
@@ -201,225 +195,286 @@ def dashboard():
     else:
         account_age_days = 1
     usage_percent = round((current_user.questions_today / current_user.daily_limit) * 100) if current_user.daily_limit > 0 else 0
-    return render_template('dashboard.html', 
-                           user=current_user, 
+    return render_template('dashboard.html',
+                           user=current_user,
                            account_age=account_age_days,
                            usage_percent=usage_percent,
                            remaining=current_user.daily_limit - current_user.questions_today)
 
+# -------------------------
+# AI ROUTES
+# -------------------------
 @app.route('/api/ask', methods=['POST'])
 @login_required
 def ask_ai():
     check_daily_reset(current_user)
     if current_user.questions_today >= current_user.daily_limit:
-        return jsonify({'error': 'Daily limit reached', 'limit_reached': True}), 403
+        return jsonify({'error':'Daily limit reached','limit_reached':True}),403
     data = request.json
     question = data.get('question')
-    subject = data.get('subject', 'General')
-    forbidden_subjects = ['hindi', 'english literature', 'sanskrit']
+    subject = data.get('subject','General')
+    forbidden_subjects=['hindi','english literature','sanskrit']
     if subject.lower() in forbidden_subjects:
-        return jsonify({'answer': "I do not answer questions related to Hindi, English Literature, or Sanskrit."})
-    system_prompt = f"You are a helpful AI tutor for students. The student is in {current_user.student_class or 'Grade 1 to College'}. Provide clear explanations and code examples when needed."
-    user_prompt = f"Subject: {subject}. Question: {question}"
-    max_tokens = 400
-    is_higher_ed = current_user.student_class and any(x in current_user.student_class for x in ["College", "Other"])
-    if subject.lower() == "programming" and is_higher_ed:
-        max_tokens = 1000
+        return jsonify({'answer':"I do not answer questions related to Hindi, English Literature, or Sanskrit."})
+    system_prompt=f"You are a helpful AI tutor for students. The student is in {current_user.student_class or 'Grade 1 to College'}. Provide clear explanations and code examples when needed."
+    user_prompt=f"Subject: {subject}. Question: {question}"
     try:
-        chat_completion = client.chat.completions.create(
-            messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
+        chat_completion=client.chat.completions.create(
+            messages=[{"role":"system","content":system_prompt},{"role":"user","content":user_prompt}],
             model="llama-3.1-8b-instant",
-            temperature=0.7,
-            max_tokens=max_tokens,
+            temperature=0.7
         )
-        answer = chat_completion.choices[0].message.content
-        current_user.questions_today += 1
-        current_user.total_questions_asked = (current_user.total_questions_asked or 0) + 1
-        add_xp(current_user, 10, subject=subject, action="Asked Question")
-        return jsonify({'answer': answer, 'questions_left': current_user.daily_limit - current_user.questions_today})
+        answer=chat_completion.choices[0].message.content
+        current_user.questions_today+=1
+        current_user.total_questions_asked=(current_user.total_questions_asked or 0)+1
+        add_xp(current_user,10,subject=subject,action="Asked Question")
+        return jsonify({'answer':answer,'questions_left':current_user.daily_limit-current_user.questions_today})
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error':str(e)}),500
 
+# -------------------------
+# NOTES
+# -------------------------
 @app.route('/api/generate-notes', methods=['POST'])
 @login_required
 def generate_notes():
     check_daily_reset(current_user)
-    if current_user.questions_today >= current_user.daily_limit:
-        return jsonify({'error': 'Daily limit reached', 'limit_reached': True}), 403
-    data = request.json
-    topic = data.get('topic'); subject = data.get('subject', 'General')
-    system_prompt = f"You are an expert educational notes generator. Create comprehensive, well-structured study notes for a student in {current_user.student_class or 'Grade 1 to College'}. Use Markdown formatting."
-    user_prompt = f"Subject: {subject}. Topic: {topic}. Please generate detailed study notes."
+    if current_user.questions_today>=current_user.daily_limit:
+        return jsonify({'error':'Daily limit reached','limit_reached':True}),403
+    data=request.json
+    topic=data.get('topic')
+    subject=data.get('subject','General')
+    system_prompt=f"You are an expert educational notes generator. Create comprehensive, well-structured study notes for a student in {current_user.student_class or 'Grade 1 to College'}. Use Markdown formatting."
+    user_prompt=f"Subject: {subject}. Topic: {topic}. Please generate detailed study notes."
     try:
-        chat_completion = client.chat.completions.create(
-            messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
+        chat_completion=client.chat.completions.create(
+            messages=[{"role":"system","content":system_prompt},{"role":"user","content":user_prompt}],
             model="llama-3.1-8b-instant",
-            temperature=0.7,
-            max_tokens=1000,
+            temperature=0.7
         )
-        notes_content = chat_completion.choices[0].message.content
-        current_user.questions_today += 1
-        current_user.total_questions_asked = (current_user.total_questions_asked or 0) + 1
-        add_xp(current_user, 20, subject=subject, action="Generated Notes")
-        return jsonify({'notes': notes_content, 'questions_left': current_user.daily_limit - current_user.questions_today})
-    except Exception as e: return jsonify({'error': str(e)}), 500
+        notes_content=chat_completion.choices[0].message.content
+        current_user.questions_today+=1
+        current_user.total_questions_asked=(current_user.total_questions_asked or 0)+1
+        add_xp(current_user,20,subject=subject,action="Generated Notes")
+        return jsonify({'notes':notes_content,'questions_left':current_user.daily_limit-current_user.questions_today})
+    except Exception as e:
+        return jsonify({'error':str(e)}),500
 
+# -------------------------
+# QUIZ
+# -------------------------
 @app.route('/api/generate-quiz', methods=['POST'])
 @login_required
 def generate_quiz():
     check_daily_reset(current_user)
-    if current_user.questions_today >= current_user.daily_limit:
-        return jsonify({'error': 'Daily limit reached', 'limit_reached': True}), 403
-    data = request.json
-    topic = data.get('topic'); subject = data.get('subject', 'General')
-    system_prompt = f"You are an expert quiz generator. Create a 5-question multiple choice quiz for a student in {current_user.student_class or 'Grade 1 to College'}. Return ONLY a JSON object with a key 'quiz' containing an array of 5 objects. Each object must have: 'question' (string), 'options' (array of 4 strings), and 'answer' (string matching one of the options)."
-    user_prompt = f"Subject: {subject}. Topic: {topic}. Generate a 5-question quiz in JSON format."
+    if current_user.questions_today>=current_user.daily_limit:
+        return jsonify({'error':'Daily limit reached','limit_reached':True}),403
+    data=request.json
+    topic=data.get('topic')
+    subject=data.get('subject','General')
+    system_prompt=f"You are an expert quiz generator. Create a 5-question multiple choice quiz for a student in {current_user.student_class or 'Grade 1 to College'}. Return ONLY a JSON object with key 'quiz' containing 5 objects with 'question','options' and 'answer'."
+    user_prompt=f"Subject: {subject}. Topic: {topic}. Generate a 5-question quiz in JSON format."
     try:
-        chat_completion = client.chat.completions.create(
-            messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
+        chat_completion=client.chat.completions.create(
+            messages=[{"role":"system","content":system_prompt},{"role":"user","content":user_prompt}],
             model="llama-3.1-8b-instant",
             temperature=0.7,
-            max_tokens=1000,
-            response_format={"type": "json_object"}
+            response_format={"type":"json_object"}
         )
-        quiz_json = json.loads(chat_completion.choices[0].message.content)
-        current_user.questions_today += 1
-        current_user.total_questions_asked = (current_user.total_questions_asked or 0) + 1
-        add_xp(current_user, 15, subject=subject, action="Generated Quiz")
-        return jsonify({'quiz': quiz_json['quiz'], 'questions_left': current_user.daily_limit - current_user.questions_today})
-    except Exception as e: return jsonify({'error': str(e)}), 500
+        quiz_json=json.loads(chat_completion.choices[0].message.content)
+        current_user.questions_today+=1
+        current_user.total_questions_asked=(current_user.total_questions_asked or 0)+1
+        add_xp(current_user,15,subject=subject,action="Generated Quiz")
+        return jsonify({'quiz':quiz_json['quiz'],'questions_left':current_user.daily_limit-current_user.questions_today})
+    except Exception as e:
+        return jsonify({'error':str(e)}),500
 
-@app.route('/api/watch-ad', methods=['POST'])
-@login_required
-def watch_ad_reward():
-    current_user.daily_limit += 1
-    db.session.commit()
-    return jsonify({'success': True, 'new_limit': current_user.daily_limit})
-
-@app.route('/notes', methods=['GET', 'POST'])
-@login_required
-def notes():
-    if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
-        if title and content:
-            new_note = Note(title=title, content=content, user_id=current_user.id)
-            db.session.add(new_note)
-            db.session.commit()
-            flash('Note saved!', 'success')
-        else:
-            flash('Title and Content are required', 'error')
-    user_notes = Note.query.filter_by(user_id=current_user.id).order_by(Note.created_at.desc()).all()
-    return render_template('notes.html', notes=user_notes)
-
-@app.route('/notes/delete/<int:id>')
-@login_required
-def delete_note(id):
-    note = Note.query.get_or_404(id)
-    if note.user_id == current_user.id:
-        db.session.delete(note)
-        db.session.commit()
-        flash('Note deleted', 'success')
-    return redirect(url_for('notes'))
-
-@app.route('/api/submit-quiz-score', methods=['POST'])
-@login_required
-def submit_quiz_score():
-    data = request.json
-    score = data.get('score'); total = data.get('total'); topic = data.get('topic', 'General')
-    new_score = QuizScore(topic=topic, score=score, total_questions=total, user_id=current_user.id)
-    db.session.add(new_score)
-    xp_reward = score * 5
-    add_xp(current_user, xp_reward, subject=topic, action=f"Completed Quiz (Score: {score}/{total})")
-    return jsonify({'success': True, 'xp_earned': xp_reward, 'new_xp': current_user.xp, 'new_level': current_user.level})
-
-@app.route('/api/vision-ask', methods=['POST'])
-@login_required
-def vision_ask():
-    check_daily_reset(current_user)
-    if current_user.questions_today >= current_user.daily_limit:
-        return jsonify({'error': 'Daily limit reached', 'limit_reached': True}), 403
-    if 'image' not in request.files: return jsonify({'error': 'No image uploaded'}), 400
-    file = request.files['image']
-    image_data = base64.b64encode(file.read()).decode('utf-8')
-    try:
-        completion = client.chat.completions.create(
-            model="llama-3.2-11b-vision-preview",
-            messages=[{"role": "user", "content": [{"type": "text", "text": "Solve the problem in this image."}, {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_data}"}}]}],
-            max_tokens=1000,
-        )
-        answer = completion.choices[0].message.content
-        current_user.questions_today += 1
-        current_user.total_questions_asked = (current_user.total_questions_asked or 0) + 1
-        add_xp(current_user, 15, subject="Image OCR", action="Asked via Image")
-        return jsonify({'answer': answer, 'questions_left': current_user.daily_limit - current_user.questions_today})
-    except Exception as e: return jsonify({'error': str(e)}), 500
-
+# -------------------------
+# PDF CHAT
+# -------------------------
 @app.route('/api/pdf-chat', methods=['POST'])
 @login_required
 def pdf_chat():
     check_daily_reset(current_user)
-    if 'pdf' not in request.files: return jsonify({'error': 'No PDF uploaded'}), 400
-    file = request.files['pdf']; question = request.form.get('question', 'Summarize')
+    if 'pdf' not in request.files:
+        return jsonify({'error':'No PDF uploaded'}),400
+    file=request.files['pdf']
+    question=request.form.get('question','Summarize')
     try:
-        reader = PdfReader(file)
-        text = "".join([p.extract_text() for p in reader.pages[:5]])
-        chat_completion = client.chat.completions.create(
-            messages=[{"role": "system", "content": "Use context to answer."}, {"role": "user", "content": f"Context: {text[:3000]}\n\nQuestion: {question}"}],
+        reader=PdfReader(file)
+        text="".join([p.extract_text() for p in reader.pages[:5]])
+        chat_completion=client.chat.completions.create(
+            messages=[{"role":"system","content":"Use context to answer."},{"role":"user","content":f"Context: {text}\n\nQuestion: {question}"}],
             model="llama-3.1-8b-instant",
+            temperature=0.7
         )
-        answer = chat_completion.choices[0].message.content
-        current_user.questions_today += 1
-        current_user.total_questions_asked = (current_user.total_questions_asked or 0) + 1
-        add_xp(current_user, 20, subject="PDF Analysis", action="Consulted PDF")
-        return jsonify({'answer': answer, 'questions_left': current_user.daily_limit - current_user.questions_today})
-    except Exception as e: return jsonify({'error': str(e)}), 500
+        answer=chat_completion.choices[0].message.content
+        current_user.questions_today+=1
+        current_user.total_questions_asked=(current_user.total_questions_asked or 0)+1
+        add_xp(current_user,20,subject="PDF Analysis",action="Consulted PDF")
+        return jsonify({'answer':answer,'questions_left':current_user.daily_limit-current_user.questions_today})
+    except Exception as e:
+        return jsonify({'error':str(e)}),500
 
-@app.route('/api/analytics')
+# -------------------------
+# VISION ASK
+# -------------------------
+@app.route('/api/vision-ask', methods=['POST'])
 @login_required
-def get_analytics():
-    subjects = db.session.query(ActivityLog.subject, db.func.count(ActivityLog.id)).filter(ActivityLog.user_id == current_user.id).group_by(ActivityLog.subject).all()
-    scores = QuizScore.query.filter_by(user_id=current_user.id).order_by(QuizScore.timestamp.desc()).limit(5).all()
-    return jsonify({'subjects': {s: c for s, c in subjects if s}, 'quiz_history': [{'topic': s.topic, 'score': s.score} for s in scores], 'xp': current_user.xp, 'level': current_user.level})
+def vision_ask():
+    check_daily_reset(current_user)
+    if current_user.questions_today>=current_user.daily_limit:
+        return jsonify({'error':'Daily limit reached','limit_reached':True}),403
+    if 'image' not in request.files:
+        return jsonify({'error':'No image uploaded'}),400
+    file=request.files['image']
+    image_data=base64.b64encode(file.read()).decode('utf-8')
+    try:
+        completion=client.chat.completions.create(
+            model="llama-3.2-11b-vision-preview",
+            messages=[{"role":"user","content":[{"type":"text","text":"Solve the problem in this image."},{"type":"image_url","image_url":{"url":f"data:image/jpeg;base64,{image_data}"}}]}],
+            temperature=0.7
+        )
+        answer=completion.choices[0].message.content
+        current_user.questions_today+=1
+        current_user.total_questions_asked=(current_user.total_questions_asked or 0)+1
+        add_xp(current_user,15,subject="Image OCR",action="Asked via Image")
+        return jsonify({'answer':answer,'questions_left':current_user.daily_limit-current_user.questions_today})
+    except Exception as e:
+        return jsonify({'error':str(e)}),500
 
+# -------------------------
+# SUBMIT QUIZ SCORE
+# -------------------------
+@app.route('/api/submit-quiz-score',methods=['POST'])
+@login_required
+def submit_quiz_score():
+    data=request.json
+    score=data.get('score')
+    total=data.get('total')
+    topic=data.get('topic','General')
+    new_score=QuizScore(topic=topic,score=score,total_questions=total,user_id=current_user.id)
+    db.session.add(new_score)
+    xp_reward=score*5
+    add_xp(current_user,xp_reward,subject=topic,action=f"Completed Quiz (Score: {score}/{total})")
+    return jsonify({'success':True,'xp_earned':xp_reward,'new_xp':current_user.xp,'new_level':current_user.level})
+
+# -------------------------
+# LEADERBOARD
+# -------------------------
 @app.route('/api/leaderboard')
 @login_required
 def get_leaderboard():
-    top_users = User.query.order_by(User.xp.desc()).limit(5).all()
-    return jsonify([{'username': u.username, 'xp': u.xp, 'level': u.level} for u in top_users])
+    top_users=User.query.order_by(User.xp.desc()).limit(5).all()
+    return jsonify([{'username':u.username,'xp':u.xp,'level':u.level} for u in top_users])
 
-@app.route('/api/update-class', methods=['POST'])
+# -------------------------
+# UPDATE CLASS
+# -------------------------
+@app.route('/api/update-class',methods=['POST'])
 @login_required
 def update_class():
-    data = request.json
-    new_class = data.get('student_class')
+    data=request.json
+    new_class=data.get('student_class')
     if new_class:
-        current_user.student_class = new_class
+        current_user.student_class=new_class
         db.session.commit()
-        return jsonify({'success': True, 'new_class': new_class})
-    return jsonify({'error': 'No class provided'}), 400
+        return jsonify({'success':True,'new_class':new_class})
+    return jsonify({'error':'No class provided'}),400
 
-@app.route('/api/download-pdf', methods=['POST'])
+# -------------------------
+# DOWNLOAD PDF
+# -------------------------
+@app.route('/api/download-pdf',methods=['POST'])
 @login_required
 def download_pdf():
-    data = request.json
-    pdf = FPDF(); pdf.add_page(); pdf.set_font("Helvetica", size=12)
-    pdf.cell(200, 10, txt=data.get('title', 'Study Note'), ln=True, align='C')
-    pdf.multi_cell(0, 10, txt=data.get('content', ''))
-    pdf_output = BytesIO(); pdf.output(pdf_output); pdf_output.seek(0)
-    return send_file(pdf_output, as_attachment=True, download_name="study_doc.pdf", mimetype='application/pdf')
+    data=request.json
+    pdf=FPDF()
+    pdf.add_page()
+    pdf.set_font("Helvetica",size=12)
+    pdf.cell(200,10,txt=data.get('title','Study Note'),ln=True,align='C')
+    pdf.multi_cell(0,10,txt=data.get('content',''))
+    pdf_output=BytesIO()
+    pdf.output(pdf_output)
+    pdf_output.seek(0)
+    return send_file(pdf_output,as_attachment=True,download_name="study_doc.pdf",mimetype='application/pdf')
+
+# -------------------------
+# NOTES CRUD
+# -------------------------
+@app.route('/notes',methods=['GET','POST'])
+@login_required
+def notes():
+    if request.method=='POST':
+        title=request.form.get('title')
+        content=request.form.get('content')
+        if title and content:
+            new_note=Note(title=title,content=content,user_id=current_user.id)
+            db.session.add(new_note)
+            db.session.commit()
+            flash('Note saved!','success')
+        else:
+            flash('Title and Content are required','error')
+    user_notes=Note.query.filter_by(user_id=current_user.id).order_by(Note.created_at.desc()).all()
+    return render_template('notes.html',notes=user_notes)
+
+@app.route('/notes/delete/<int:id>')
+@login_required
+def delete_note(id):
+    note=Note.query.get_or_404(id)
+    if note.user_id==current_user.id:
+        db.session.delete(note)
+        db.session.commit()
+        flash('Note deleted','success')
+    return redirect(url_for('notes'))
+
+# -------------------------
+# ADS REWARD
+# -------------------------
+@app.route('/api/watch-ad',methods=['POST'])
+@login_required
+def watch_ad_reward():
+    current_user.daily_limit+=1
+    db.session.commit()
+    return jsonify({'success':True,'new_limit':current_user.daily_limit})
 
 @app.route('/ads.txt')
 def ads_txt():
     return send_from_directory('static', 'ads.txt')
 
-# =========================
-# RUN
-# =========================
+# -------------------------
+# TERMS / EXTRA ROUTES
+# -------------------------
+@app.route('/terms-of-use')
+def terms_of_use():
+    return render_template('terms_of_use.html')
+
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
+@app.route('/progress')
+@login_required
+def progress():
+    scores = QuizScore.query.filter_by(user_id=current_user.id).order_by(QuizScore.created_at.desc()).all()
+    return render_template('progress.html', scores=scores)
+
+# -------------------------
+# ERROR HANDLERS
+# -------------------------
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template('500.html', error=str(e)), 500
+
+# -------------------------
+# RUN SERVER
+# -------------------------
 with app.app_context():
     db.create_all()
-
-import os
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
